@@ -1,8 +1,10 @@
 package com.example.myapplication.data
 
 import androidx.room.ColumnInfo
+import androidx.room.Dao
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Query
 
 @Entity
 data class Airport(
@@ -11,3 +13,9 @@ data class Airport(
     val name: String,
     val passengers: Int
 )
+
+@Dao
+interface AirportDao {
+    @Query("SELECT * FROM Airport WHERE name LIKE '% :query' or iata_code LIKE '% :query' ")
+    fun getAirports(query: String)
+}
