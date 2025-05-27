@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Entity
 data class Airport(
@@ -17,5 +18,5 @@ data class Airport(
 @Dao
 interface AirportDao {
     @Query("SELECT * FROM Airport WHERE name LIKE '% :query' or iata_code LIKE '% :query' ")
-    fun getAirports(query: String)
+    fun getAirports(query: String): Flow<List<Airport>>
 }
