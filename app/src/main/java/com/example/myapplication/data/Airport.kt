@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Entity
 data class Airport(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    @ColumnInfo(name = "iata_code") val iataCode: String,
+    @ColumnInfo(name = "iata_code", ) val iataCode: String,
     val name: String,
     val passengers: Int
 )
@@ -19,4 +19,7 @@ data class Airport(
 interface AirportDao {
     @Query("SELECT * FROM Airport WHERE name LIKE '% :query' or iata_code LIKE '% :query' ")
     fun getAirports(query: String): Flow<List<Airport>>
+
+    @Query("SELECT * FROM Airport where iata_code = :iataCode")
+    fun getAirportsByIata(iataCode: String): Flow<List<Airport>>
 }

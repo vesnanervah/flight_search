@@ -1,9 +1,13 @@
 package com.example.myapplication.data
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlin.compareTo
 
 interface FlightsRepository {
     fun getAirports(query: String): Flow<List<Airport>>
+
+    fun getAirportByIata(iataCode: String): Flow<Airport?>
 
     fun getFavorites(): Flow<List<Favorite>>
 
@@ -18,6 +22,13 @@ class LocalFlightsRepository(
     private val favoriteDao: FavoriteDao
 ): FlightsRepository {
     override fun getAirports(query: String): Flow<List<Airport>> = airportDao.getAirports(query)
+
+    override fun getAirportByIata(iataCode: String): Flow<Airport?> = airportDao.getAirportsByIata(iataCode).map {
+        if (it.size > 1 ){
+            throw Exception("Iata code should be unique")
+        }
+        it.firstOrNull()
+    }
 
     override fun getFavorites(): Flow<List<Favorite>> = favoriteDao.getFavorites()
 
