@@ -17,6 +17,9 @@ data class Airport(
 
 @Dao
 interface AirportDao {
+    @Query("SELECT * FROM Airport")
+    fun getAllAirports(): Flow<List<Airport>>
+
     @Query("SELECT * FROM Airport WHERE name LIKE '% :query' or iata_code LIKE '% :query' ")
     fun getAirports(query: String): Flow<List<Airport>>
 

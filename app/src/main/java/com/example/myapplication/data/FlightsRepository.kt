@@ -2,10 +2,11 @@ package com.example.myapplication.data
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlin.compareTo
 
 interface FlightsRepository {
-    fun getAirports(query: String): Flow<List<Airport>>
+    fun getAllAirports(): Flow<List<Airport>>
+
+    fun getAirportsByQuery(query: String): Flow<List<Airport>>
 
     fun getAirportByIata(iataCode: String): Flow<Airport?>
 
@@ -21,7 +22,9 @@ class LocalFlightsRepository(
     private val airportDao: AirportDao,
     private val favoriteDao: FavoriteDao
 ): FlightsRepository {
-    override fun getAirports(query: String): Flow<List<Airport>> = airportDao.getAirports(query)
+    override fun getAllAirports(): Flow<List<Airport>> = airportDao.getAllAirports()
+
+    override fun getAirportsByQuery(query: String): Flow<List<Airport>> = airportDao.getAirports(query)
 
     override fun getAirportByIata(iataCode: String): Flow<Airport?> = airportDao.getAirportsByIata(iataCode).map {
         if (it.size > 1 ){
