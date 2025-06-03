@@ -6,7 +6,7 @@ import com.example.myapplication.data.FlightsRepository
 import com.example.myapplication.data.LocalFlightsRepository
 
 class MainApplication: Application() {
-    lateinit var database: FlightsDatabase
+    private lateinit var database: FlightsDatabase
     lateinit var flightsRepository: FlightsRepository
 
     override fun onCreate() {

@@ -27,7 +27,7 @@ class LocalFlightsRepository(
     override fun getAirportsByQuery(query: String): Flow<List<Airport>> = airportDao.getAirports(query)
 
     override fun getAirportByIata(iataCode: String): Flow<Airport?> = airportDao.getAirportsByIata(iataCode).map {
-        if (it.size > 1 ){
+        if (it.size > 1 ) {
             throw Exception("Iata code should be unique")
         }
         it.firstOrNull()

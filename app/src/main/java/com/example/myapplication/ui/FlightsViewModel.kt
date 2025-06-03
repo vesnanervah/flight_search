@@ -10,9 +10,12 @@ import com.example.myapplication.data.Favorite
 import com.example.myapplication.data.Flight
 import com.example.myapplication.data.FlightsRepository
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 
 class FlightsViewModel(private val flightsRepository: FlightsRepository): ViewModel() {
     val airports = flightsRepository.getAllAirports()
+    val favoriteFlights = flightsRepository.getFavorites().map { convertFavoritesToFlights(it) }
+
 
     private suspend fun convertFavoritesToFlights(favorites: List<Favorite>): List<Flight> {
         return favorites.mapNotNull {
