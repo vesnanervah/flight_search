@@ -1,5 +1,7 @@
 package com.example.myapplication.ui
 
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -15,7 +17,12 @@ import kotlinx.coroutines.flow.map
 class FlightsViewModel(private val flightsRepository: FlightsRepository): ViewModel() {
     val airports = flightsRepository.getAllAirports()
     val favoriteFlights = flightsRepository.getFavorites().map { convertFavoritesToFlights(it) }
+    val textFieldValue = mutableStateOf("")
 
+    fun onTextInput(newTextFieldValue: String) {
+        textFieldValue.value = newTextFieldValue
+        // TODO: add api request
+    }
 
     private suspend fun convertFavoritesToFlights(favorites: List<Favorite>): List<Flight> {
         return favorites.mapNotNull {
